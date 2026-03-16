@@ -1,5 +1,22 @@
 # OpenCode Global Rules
 
+## 0. Rule Priority and Conflict Resolution
+
+When rules appear to conflict, follow this precedence order:
+
+1. **Safety and legal risk first**: Sensitive information protection, data-loss prevention, and production safety override all other rules.
+2. **Explicit user intent second**: If the user gives a clear and safe instruction, follow it over default operational preferences.
+3. **Task-specific protocol third**: Apply section-specific execution protocols (confirmation, completion, lint, validation) before general style preferences.
+4. **Default behavior last**: Use default workflow rules only when higher-priority rules do not apply.
+
+Conflict handling policy:
+
+- If two rules still conflict after precedence is applied, choose the safer and reversible action.
+- State the applied precedence briefly in the response when conflict resolution affects execution.
+- If conflict changes scope, risk, or irreversible outcomes, request user confirmation before proceeding.
+
+---
+
 ## 1. Language Rules
 
 ### Principles
@@ -95,13 +112,16 @@
 
 ### Default Path
 
-- New projects are located in `~/Projects/`
+- Use `~/Projects/` as the default location **only when** the user did not provide a path and no active workspace context is already defined.
+- If the user provides an explicit path, or the current workspace is clearly part of the requested task, prioritize that location first.
 
 ### Resource Search Priority
 
-1. Search the default project path first
-2. Only ask the user when resources cannot be found after investigating
-3. When asking, explicitly mention the directories already searched and specify what is needed
+1. Search the user-specified path first (if provided).
+2. Otherwise, search the active workspace root.
+3. If neither yields the target resource, search `~/Projects/`.
+4. Only ask the user when resources cannot be found after the steps above.
+5. When asking, explicitly mention searched directories and what exact resource is needed.
 
 ---
 
@@ -120,35 +140,51 @@
 
 ### Code Handling
 
-- Remove hardcoded secrets immediately; use environment variables or secret managers
-- Filter sensitive information from log outputs
-- Prevent sensitive data exposure in error messages
-- Use mock/synthetic data in tests. Integration tests may use realistic non-production data
-- Always include config files (.env, config.json, etc.) in .gitignore
+- Remove hardcoded secrets immediately; use environment variables or secret managers.
+- Filter sensitive information from logs and command output summaries.
+- Prevent sensitive data exposure in error messages.
+- Use mock/synthetic data in tests. Integration tests may use realistic non-production data.
+- Do **not** blanket-ignore all config files.
+- Add secret-prone patterns to `.gitignore` (project-specific as needed), such as:
+  - `.env`
+  - `.env.*`
+  - `*.pem`
+  - `*.key`
+  - `*credentials*.json`
+  - `*secret*.*`
+- Keep non-sensitive config templates in the repository (for example, `config.example.json`), and never store real credentials in tracked config files.
 
 ### Repository Security
 
-- Explicitly add sensitive file patterns to .gitignore
-- Never commit files containing sensitive information to public repositories
-- If accidentally committed, remove immediately and purge from history
+- Explicitly add sensitive file patterns to `.gitignore`.
+- Never commit files containing sensitive information to public repositories.
+- If accidentally committed, remove immediately and purge from history.
 
 ### AI Agent Rules
 
-- Warn users immediately when sensitive information is detected during code analysis
-- Require explicit user authorization before performing sensitive information tasks
-- Verify output results do not contain sensitive information
+- Warn users immediately when sensitive information is detected during code analysis.
+- Require explicit user authorization **only** for high-risk sensitive-data operations, including:
+  - accessing real secrets or production credentials,
+  - transforming/migrating/deleting sensitive datasets,
+  - rotating or invalidating live credentials,
+  - executing external operations that use sensitive values.
+- Explicit authorization is **not required** for:
+  - passive detection/redaction in outputs,
+  - refusing unsafe requests,
+  - proposing remediation steps.
+- Verify output results do not contain sensitive information.
 
 ### Emergency Response
 
-- Halt all related operations immediately if leakage is suspected
-- Notify users and request additional actions
-- Invalidate and rotate any leaked credentials immediately
+- Halt all related operations immediately if leakage is suspected.
+- Notify users and request additional actions.
+- Invalidate and rotate any leaked credentials immediately.
 
 ### Socially Sensitive Topics
 
-- Violence/hate speech: Reject immediately, state safety policy violation
-- Other sensitive topics (politics, religion, race, gender, etc.): Provide only neutral, factual information
-- Model censorship limitations: Clearly inform users when unable to respond due to model safety restrictions
+- Violence/hate speech: Reject immediately, state safety policy violation.
+- Other sensitive topics (politics, religion, race, gender, etc.): Provide only neutral, factual information.
+- Model censorship limitations: Clearly inform users when unable to respond due to model safety restrictions.
 
 ---
 
@@ -156,32 +192,33 @@
 
 ### Formatting
 
-- Always add a blank line before and after headings
-- Always add a blank line before and after lists (both ordered and unordered)
-- Always add a blank line before and after fenced code blocks
-- Always specify a language identifier in fenced code blocks (e.g., `bash`, `hcl`, `json`, `text`)
+- Always add a blank line before and after headings.
+- Always add a blank line before and after lists (both ordered and unordered).
+- Always add a blank line before and after fenced code blocks.
+- Always specify a language identifier in fenced code blocks (for example, `bash`, `hcl`, `json`, `text`).
 
 ### Headings
 
-- Do not use duplicate heading text within the same document. If needed, add context to make headings unique (e.g., "주의사항" → "일반 주의사항", "타겟 배포 시 유의할 점")
-- Maintain proper heading hierarchy (do not skip levels: `##` → `####`)
+- Do not use duplicate heading text within the same document. If needed, add context to make headings unique (for example, "주의사항" → "일반 주의사항", "타겟 배포 시 유의할 점").
+- Maintain proper heading hierarchy (do not skip levels: `##` → `###` → `####`).
 
 ### Structure
 
-- When adding new content to an existing document, place it in the correct section based on the document's heading hierarchy. Do not insert content into unrelated sections (e.g., do not add a new strategy inside a "주의사항" section)
-- Do not add content after a "변경 이력" or changelog section. Changelog must always remain at the end of the document
-- Do not insert duplicate text. Before adding content, verify the same text does not already exist in the document
-- Do not write meta-commentary about the document as if it were actual content (e.g., "이 문서에는 ~가 부족함" is a comment about the document, not actionable guidance)
-- Before removing, modifying, or adding content to a document, thoroughly read and understand the existing content first. This prevents duplicate insertions, contradictory statements, and structural violations
+- When adding new content to an existing document, place it in the correct section based on the document's heading hierarchy.
+- Do not insert content into unrelated sections (for example, do not add a new strategy inside a "주의사항" section).
+- Do not add content after a "변경 이력" or changelog section. Changelog must always remain at the end of the document.
+- Do not insert duplicate text. Before adding content, verify the same text does not already exist in the document.
+- Do not write meta-commentary about the document as if it were actual content.
+- Before removing, modifying, or adding content to a document, thoroughly read and understand the existing content first.
 
 ### Code Examples
 
-- All CLI commands, API calls, and code snippets must be verified to actually exist before including them
-- Do not fabricate gcloud/terraform/kubectl commands. Verify command syntax against official documentation
+- All CLI commands, API calls, and code snippets must be verified to actually exist before including them.
+- Do not fabricate gcloud/terraform/kubectl commands. Verify command syntax against official documentation.
 
 ### Tables
 
-- Use aligned style (pipes aligned with spaces) for readability
+- Use aligned style (pipes aligned with spaces) for readability.
 - Example:
 
 ```markdown
@@ -197,7 +234,7 @@
 ### Edit and Save Consistency
 
 - Always save changes immediately after editing files. Never leave modifications unsaved.
-- When making configuration changes (e.g. .markdownlint.json, .vscode/settings.json), ensure the changes are persisted to disk.
+- When making configuration changes (for example, `.markdownlint.json`, `.vscode/settings.json`), ensure the changes are persisted to disk.
 - Verify that all intended changes are actually saved by reading the file back after editing.
 
 ### Markdown Lint Validation
@@ -217,9 +254,14 @@ pnpm add -g markdownlint-cli2
 
 #### Validation
 
-- ALWAYS run `npx markdownlint-cli2 "**/*.md"` before committing any markdown file changes
-- Fix ALL lint errors before considering the task complete
-- Never assume markdown formatting is correct without validation
+- Run `npx markdownlint-cli2 "**/*.md"` before committing markdown changes when the tool is available.
+- Fix all lint errors before considering the task complete.
+- Never assume markdown formatting is correct without validation.
+- If lint execution is unavailable (missing tool, offline environment, permission limits), do not skip validation silently.
+- In fallback mode, report:
+  - why lint command could not run,
+  - which manual checks were performed,
+  - any remaining unverified items.
 - Pay special attention to:
   - Blank lines around headings (MD022)
   - Blank lines around code blocks (MD031)
@@ -234,32 +276,39 @@ pnpm add -g markdownlint-cli2
 
 ### Context Understanding
 
-- Accurately grasp the conversation context with the user before responding or taking action
-- When the user's intent or instruction is ambiguous, ask clarifying questions before proceeding
-- Do not assume the scope of a request — confirm whether the user means a single file, a module, an environment, or the entire project
+- Accurately grasp the conversation context before responding or taking action.
+- Ask clarifying questions only when ambiguity would materially change outcome, scope, risk, or irreversible impact.
+- Do not assume the scope of a request; confirm whether the user means a single file, a module, an environment, or the entire project when this difference affects results.
+- If a low-risk reasonable default exists, proceed with that default and state the assumption explicitly.
 
 ### Contextual Judgment
 
-- When a document states a project characteristic (e.g. "this project does not use tool X"), interpret it in the context of the project's **core purpose and normal operations**, not edge cases or one-time procedures
-- Distinguish between a project's normal operations and temporary/one-time tasks (e.g. migration, initial setup). Project-level rules describe normal operations
-- Before flagging a rule as incorrect or contradictory, verify whether the apparent contradiction arises from a difference in scope (e.g. normal operations vs migration tasks)
+- When a document states a project characteristic (for example, "this project does not use tool X"), interpret it in the context of the project's core purpose and normal operations, not edge cases or one-time procedures.
+- Distinguish between normal operations and temporary/one-time tasks (for example, migration, initial setup).
+- Before flagging a rule as incorrect or contradictory, verify whether the apparent contradiction comes from scope differences.
 
 ### Multi-Step Task Awareness
 
-- When performing a multi-step task, maintain awareness of the overall goal across all steps
-- Do not lose context between steps — if step 1 produces output that step 3 depends on, carry that information forward
-- When interrupted mid-task, clearly communicate what has been completed and what remains
+- When performing a multi-step task, maintain awareness of the overall goal across all steps.
+- Do not lose context between steps; carry forward outputs that later steps depend on.
+- When interrupted mid-task, clearly communicate what has been completed and what remains.
+- If clarification is needed, ask 1-2 targeted questions after completing all non-blocked work first.
 
 ---
 
 ## 7. Task Completion Declaration
 
+### Scope of This Section
+
+- This section applies to tasks that modify files, configuration, infrastructure definitions, or execute commands with side effects.
+- For analysis-only or advisory-only tasks (no repository changes), provide a concise completion report without forcing build/test/lint steps that are not applicable.
+
 ### Pre-Completion Checklist
 
 - [ ] All items in user's request completed
-- [ ] Lint/diagnostics passed for changed files
-- [ ] Build/test run (when possible)
-- [ ] No unexpected side effects
+- [ ] Lint/diagnostics passed for changed files (when applicable)
+- [ ] Build/test run (when applicable and feasible)
+- [ ] No unexpected side effects identified
 
 ### Completion Report Format
 
@@ -269,9 +318,9 @@ pnpm add -g markdownlint-cli2
 
 ### Incomplete Task Handling
 
-- If a task cannot be completed, clearly explain the reason
-- If there are blockers, suggest resolution options to the user
-- If partially completed, report completed and remaining parts separately
+- If a task cannot be completed, clearly explain the reason.
+- If there are blockers, suggest resolution options.
+- If partially completed, report completed and remaining parts separately.
 
 ---
 
@@ -279,41 +328,61 @@ pnpm add -g markdownlint-cli2
 
 ### Required Confirmation (never proceed without user approval)
 
-- **Production environment changes**: Modifying live system config, code, or infrastructure
-- **Data deletion/migration**: Operations with potential data loss
-- **Dependency changes**: Modifying package.json, go.mod, requirements.txt, etc.
-- **Architecture changes**: Directory structure, module split/merge, design pattern changes
-- **Better alternative found**: When a more effective approach exists than what the user proposed
+- **Production environment changes**: Modifying live system config, code, or infrastructure.
+- **Destructive data operations**: Deletion, irreversible migration, bulk rewrite, or any action with non-trivial data-loss risk.
+- **High-impact dependency changes**:
+  - major version upgrades,
+  - dependency replacement/removal that can change runtime behavior,
+  - lockfile-wide updates in shared branches.
+- **High-impact architecture changes**:
+  - module boundary changes affecting public interfaces,
+  - storage schema redesign,
+  - cross-cutting pattern shifts with broad refactor scope.
+- **Safer alternative with material risk gap**:
+  - ask for confirmation only when the user-requested path has clearly higher risk/cost and the alternative is substantially safer.
 
-### Confirmation Request Format
+### Usually No Confirmation Needed
+
+- Simple bug fixes restoring intended behavior.
+- Documentation changes (README, comments, etc.).
+- Adding/modifying test code.
+- User-requested low-risk implementation details with no destructive impact.
+- Minor dependency updates with low risk (for example, patch/minor updates) when runtime behavior is not expected to change significantly.
+- Internal refactors that preserve external behavior and module contracts.
+
+### Confirmation Request Format (Korean)
 
 ```text
-I would like to proceed with the following:
+다음 작업을 진행하려고 합니다.
 
-**Action**: [specific description of the action]
-**Scope**: [affected files, modules, environments]
-**Expected outcome**: [expected state after completion]
-**Risk factors**: [potential risks, if any]
+**작업 내용**: [수행할 작업]
+**영향 범위**: [영향 받는 파일/모듈/환경]
+**예상 결과**: [작업 후 기대 상태]
+**위험 요소**: [잠재적 위험]
 
-Shall I proceed?
+진행해도 될까요?
 ```
 
-### Proceed Without Confirmation
+### Confirmation Decision Notes
 
-- Simple bug fixes (restoring existing behavior)
-- Documentation changes (README, comments, etc.)
-- Adding/modifying test code
-- Direct execution of clearly requested tasks
+- If uncertain whether a change is high-impact, default to asking confirmation.
+- If proceeding without confirmation, briefly state why the action qualifies as low-risk.
 
 ---
 
 ## 9. Code Quality Essentials
 
-When writing any code, always apply these six principles:
+When writing any code, apply these six principles by default:
 
-- **Readable**: Descriptive names, no deep nesting (3+ levels), no magic numbers
-- **Predictable**: No hidden side effects, null-safe, clear inputs/outputs
-- **Hard to misuse**: Immutable by default, enums over constants, minimal visibility
-- **Modular**: Single responsibility, dependency injection, composition over inheritance
-- **Reusable**: Minimize assumptions, return general types, no premature abstraction
-- **Testable**: Injectable dependencies, test behavior not implementation
+- **Readable**: Descriptive names, no deep nesting (3+ levels), no magic numbers.
+- **Predictable**: No hidden side effects, null-safe, clear inputs/outputs.
+- **Hard to misuse**: Immutable by default, prefer enums or strongly typed alternatives over raw constants, minimal visibility.
+- **Modular**: Single responsibility, dependency injection, composition over inheritance.
+- **Reusable**: Minimize assumptions, return general types, no premature abstraction.
+- **Testable**: Injectable dependencies, test behavior not implementation.
+
+Exception policy:
+
+- These are default principles, not absolute laws.
+- When language/framework/runtime constraints require deviation, allow the smallest necessary exception.
+- If deviating, briefly document the reason and expected impact in the change explanation.

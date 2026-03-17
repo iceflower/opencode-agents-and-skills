@@ -1,101 +1,32 @@
-# OpenCode Agents & Skills
+# Agents.md
 
-OpenCode AI 에이전트를 위한 글로벌 설정 파일 모음입니다.
+AI 코딩 에이전트를 위한 글로벌 규칙 파일(`AGENTS.md`)을 관리하는 저장소입니다.
 
-## 파일 구조
+## AGENTS.md란?
 
-```
-├── AGENTS.md          # 글로벌 규칙
-└── skills/            # 스킬 정의 파일들
-    ├── git-workflow/SKILL.md
-    ├── spring-framework/SKILL.md
-    └── ...
-```
+`AGENTS.md`는 AI 코딩 에이전트(OpenCode, Codex 등)가 읽어들이는 글로벌 행동 규칙 파일입니다. 에이전트의 언어, 보안, 문서 작성, 작업 완료 기준 등을 정의합니다.
 
-## AGENTS.md
+## 포함된 규칙
 
-글로벌 규칙 파일로, 다음을 포함합니다:
-
-- **언어 규칙**: 한국어 커뮤니케이션, 추측 금지
-- **마크다운 규칙**: 문서 포맷팅 표준
+- **언어 규칙**: 한국어 커뮤니케이션, 존댓말 사용, 추측 금지
 - **민감 정보 처리**: API 키, 비밀번호 등 보안 가이드
+- **마크다운 규칙**: 문서 포맷팅 표준
+- **파일 수정 규칙**: 편집 후 저장 일관성, Lint 검증
+- **대화 및 컨텍스트 규칙**: 맥락 파악, 다단계 작업 인식
 - **태스크 완료 선언**: 작업 완료 체크리스트
-
-## Skills 목록
-
-### Spring & Spring Boot
-
-| Skill | 설명 |
-|-------|------|
-| spring-framework | IoC/DI, AOP, 트랜잭션 관리 |
-| spring-boot-migration | Spring Boot 버전 마이그레이션 |
-| spring-security | 보안 설정 및 인증 |
-| spring-webflux | WebFlux 및 Kotlin Coroutines |
-| spring-jpa | JPA 패턴 및 N+1 방지 |
-| spring-config | 설정 관리 패턴 |
-
-### Kotlin & Java
-
-| Skill | 설명 |
-|-------|------|
-| kotlin-convention | Kotlin 코딩 컨벤션 |
-| java-convention | Java 코딩 컨벤션 |
-| java-kotlin-interop | Java-Kotlin 상호 운용 |
-| kotlin-migration | Kotlin 버전 마이그레이션 |
-| java-migration | Java 버전 마이그레이션 |
-
-### Database
-
-| Skill | 설명 |
-|-------|------|
-| database | 일반 데이터베이스 패턴 |
-| mysql | MySQL 특화 규칙 |
-| postgresql | PostgreSQL 특화 규칙 |
-| exposed | JetBrains Exposed ORM |
-| spring-jpa | Spring Data JPA |
-
-### Infrastructure
-
-| Skill | 설명 |
-|-------|------|
-| terraform-workflow | Terraform 핵심 워크플로우 |
-| terraform-aws-provider | AWS Terraform 프로바이더 |
-| terraform-azure-provider | Azure Terraform 프로바이더 |
-| k8s-workflow | Kubernetes 매니페스트 |
-| karpenter-workflow | Karpenter 오토스케일링 |
-
-### 코드 품질 & 테스트
-
-| Skill | 설명 |
-|-------|------|
-| code-quality | 코드 품질 원칙 |
-| code-review | 코드 리뷰 체크리스트 |
-| testing-unit | BDD 스타일 단위 테스트 |
-| testing-integration | 통합 테스트 패턴 |
-| error-handling | 에러 처리 패턴 |
-
-### 기타
-
-| Skill | 설명 |
-|-------|------|
-| git-workflow | Git 커밋 컨벤션 및 브랜치 전략 |
-| ci-cd | GitHub Actions CI/CD |
-| security | 보안 규칙 |
-| caching | 캐싱 전략 |
-| logging | 로깅 표준 |
-| monitoring | 관측 가능성 패턴 |
+- **사용자 확인 프로토콜**: 위험 작업 시 확인 절차
+- **코드 품질 필수 원칙**: 6대 코드 품질 원칙
 
 ## 사용 방법
 
-이 파일들을 OpenCode 설정 디렉토리에 배치하세요:
-
 ```bash
-# AGENTS.md 복사
+# AGENTS.md를 글로벌 설정 경로에 복사
 cp AGENTS.md ~/.config/opencode/
-
-# Skills 복사
-cp -r skills/* ~/.config/opencode/skills/
 ```
+
+## Skills (스킬)
+
+스킬은 별도 저장소로 분리되었습니다: [iceflower/agent-skills](https://github.com/iceflower/agent-skills)
 
 ## 라이선스
 

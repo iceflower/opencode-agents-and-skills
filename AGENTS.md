@@ -1,4 +1,4 @@
-# OpenCode Global Rules
+# Agent Global Rules
 
 ## 0. Rule Priority and Conflict Resolution
 
@@ -386,3 +386,112 @@ Exception policy:
 - These are default principles, not absolute laws.
 - When language/framework/runtime constraints require deviation, allow the smallest necessary exception.
 - If deviating, briefly document the reason and expected impact in the change explanation.
+
+---
+
+## 10. Skills Reference
+
+### Agent Skills Standard
+
+- Skills are reusable instruction packages that extend agent capabilities for specific tasks.
+- Skills follow the [Agent Skills open standard](https://agentskills.io) and are stored in `~/.agents/skills/` (global) or `.agents/skills/` (project).
+- Each skill is a directory containing `SKILL.md` (required) and optional `references/`, `scripts/` subdirectories.
+
+### How Skills Are Loaded
+
+- The agent scans skill directories and reads `SKILL.md` frontmatter (`name`, `description`) to decide when to apply each skill.
+- Full skill content is loaded into context only when the skill is invoked (by the user or automatically by description match).
+- For detailed reference material, skills may include `references/` files that are loaded on demand.
+
+### When to Use Skills
+
+- When the current task matches a skill's description, load and follow that skill's instructions.
+- Do not duplicate skill content in responses; refer to the skill by name when relevant.
+- If a skill includes `scripts/`, the agent may execute those scripts when the skill's workflow calls for it.
+
+---
+
+## 11. Tool Usage Rules
+
+### Prefer Dedicated Tools Over Shell Commands
+
+- When a dedicated tool is available for an operation, use it instead of raw shell commands:
+  - File reading → use the file read tool, not `cat`/`head`/`tail`
+  - File editing → use the file edit tool, not `sed`/`awk`
+  - File search → use the glob/grep tool, not `find`/`grep`
+  - File creation → use the file write tool, not `echo` redirection
+- Reserve shell execution for system commands and operations that have no dedicated tool equivalent.
+
+### Parallel Execution
+
+- When multiple independent operations are needed, execute them in parallel rather than sequentially.
+- Only sequence operations when one depends on the output of another.
+
+### Tool Error Handling
+
+- If a tool call is denied by the user, do not retry the exact same call.
+- Analyze why it was denied and adjust the approach.
+- If the reason is unclear, ask the user for guidance.
+
+---
+
+## 12. Git Workflow Safety Rules
+
+### Commit Rules
+
+- Only create commits when explicitly requested by the user.
+- Prefer creating new commits over amending existing ones.
+- When staging files, add specific files by name rather than using `git add -A` or `git add .` to avoid accidentally including sensitive files.
+- Never commit files that likely contain secrets (`.env`, credentials, keys).
+
+### Destructive Operations
+
+- Never run destructive git commands without explicit user request:
+  - `git push --force` (especially to main/master)
+  - `git reset --hard`
+  - `git checkout .` / `git restore .`
+  - `git clean -f`
+  - `git branch -D`
+- When a pre-commit hook fails, the commit did NOT happen. Create a new commit after fixing; do not use `--amend` (which would modify the previous unrelated commit).
+
+### Push Safety
+
+- Do not push to remote unless the user explicitly asks.
+- Never force-push to main/master; warn the user if they request it.
+- Never skip hooks (`--no-verify`) unless the user explicitly requests it.
+
+### Branch Operations
+
+- Investigate unexpected state (unfamiliar files, branches, configuration) before deleting or overwriting; it may represent the user's in-progress work.
+- Resolve merge conflicts rather than discarding changes.
+
+---
+
+## 13. Secure Coding Practices
+
+### OWASP Top 10 Awareness
+
+[OWASP](https://owasp.org/) (Open Worldwide Application Security Project) is a nonprofit foundation that publishes the industry-standard list of the most critical web application security risks. The OWASP Top 10 is updated every 3-4 years (latest: 2021) and serves as the de facto security baseline for code reviews, audits, and compliance.
+
+When writing code, be vigilant against all 10 categories:
+
+| #  | Vulnerability                            | Prevention                                                          |
+| -- | ---------------------------------------- | ------------------------------------------------------------------- |
+| A01 | Broken Access Control                   | Check authorization at service layer, not just URL; deny by default; enforce record-level ownership |
+| A02 | Cryptographic Failures                  | Encrypt sensitive data at rest and in transit; use strong algorithms (AES-256, bcrypt); never implement custom crypto |
+| A03 | Injection (SQL, Cmd, LDAP, XSS)        | Use parameterized queries; never concatenate user input into queries or commands; sanitize output |
+| A04 | Insecure Design                         | Apply threat modeling; use secure design patterns; validate business logic assumptions |
+| A05 | Security Misconfiguration               | No default credentials; disable debug in production; remove unnecessary features/endpoints |
+| A06 | Vulnerable and Outdated Components      | Keep dependencies updated; monitor CVE databases; remove unused dependencies |
+| A07 | Identification and Authentication Failures | Use established auth libraries; enforce MFA where possible; protect against credential stuffing |
+| A08 | Software and Data Integrity Failures    | Verify integrity of updates, CI/CD pipelines, and serialized data; use digital signatures |
+| A09 | Security Logging and Monitoring Failures | Log security events (login failures, access denials); ensure logs are tamper-resistant; set up alerts |
+| A10 | Server-Side Request Forgery (SSRF)      | Validate and whitelist outbound URLs; block requests to internal networks from user-supplied URLs |
+
+### Code-Level Rules
+
+- Validate all input at system boundaries (user input, external APIs).
+- Never trust client-side validation alone; always re-validate server-side.
+- Do not expose internal error details (stack traces, SQL, class names) in API responses.
+- Use environment variables or secret managers for secrets; never hardcode.
+- If insecure code is written accidentally, fix it immediately before proceeding.

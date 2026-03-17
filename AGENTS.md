@@ -471,18 +471,22 @@ Exception policy:
 
 ### OWASP Top 10 Awareness
 
-When writing code, be vigilant against these common vulnerabilities:
+[OWASP](https://owasp.org/) (Open Worldwide Application Security Project) is a nonprofit foundation that publishes the industry-standard list of the most critical web application security risks. The OWASP Top 10 is updated every 3-4 years (latest: 2021) and serves as the de facto security baseline for code reviews, audits, and compliance.
 
-| Vulnerability          | Prevention                                                          |
-| ---------------------- | ------------------------------------------------------------------- |
-| Injection (SQL, Cmd)   | Use parameterized queries; never concatenate user input into queries or commands |
-| XSS                    | Sanitize output; use framework-provided escaping                    |
-| Broken Authentication  | Use established auth libraries; never implement custom crypto       |
-| Sensitive Data Exposure| Encrypt at rest and in transit; mask in logs per Section 3          |
-| Broken Access Control  | Check authorization at service layer, not just URL                  |
-| Security Misconfiguration | No default credentials; disable debug in production             |
-| SSRF                   | Validate and whitelist outbound URLs                                |
-| Insecure Deserialization | Avoid deserializing untrusted data; use allowlists                |
+When writing code, be vigilant against all 10 categories:
+
+| #  | Vulnerability                            | Prevention                                                          |
+| -- | ---------------------------------------- | ------------------------------------------------------------------- |
+| A01 | Broken Access Control                   | Check authorization at service layer, not just URL; deny by default; enforce record-level ownership |
+| A02 | Cryptographic Failures                  | Encrypt sensitive data at rest and in transit; use strong algorithms (AES-256, bcrypt); never implement custom crypto |
+| A03 | Injection (SQL, Cmd, LDAP, XSS)        | Use parameterized queries; never concatenate user input into queries or commands; sanitize output |
+| A04 | Insecure Design                         | Apply threat modeling; use secure design patterns; validate business logic assumptions |
+| A05 | Security Misconfiguration               | No default credentials; disable debug in production; remove unnecessary features/endpoints |
+| A06 | Vulnerable and Outdated Components      | Keep dependencies updated; monitor CVE databases; remove unused dependencies |
+| A07 | Identification and Authentication Failures | Use established auth libraries; enforce MFA where possible; protect against credential stuffing |
+| A08 | Software and Data Integrity Failures    | Verify integrity of updates, CI/CD pipelines, and serialized data; use digital signatures |
+| A09 | Security Logging and Monitoring Failures | Log security events (login failures, access denials); ensure logs are tamper-resistant; set up alerts |
+| A10 | Server-Side Request Forgery (SSRF)      | Validate and whitelist outbound URLs; block requests to internal networks from user-supplied URLs |
 
 ### Code-Level Rules
 

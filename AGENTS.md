@@ -368,6 +368,58 @@ pnpm add -g markdownlint-cli2
 - If uncertain whether a change is high-impact, default to asking confirmation.
 - If proceeding without confirmation, briefly state why the action qualifies as low-risk.
 
+### Destructive File Operations Backup Protocol
+
+This protocol is mandatory before any destructive file operation, including `rsync --delete`, `rm -rf`, overwrite moves, bulk rewrites, or cleanup scripts.
+
+**Core Principles:**
+
+- Always create a restorable backup before execution.
+- Never assume deleted files are recoverable.
+- If backup cannot be created or verified, stop the operation.
+
+**Required Pre-Checks:**
+
+1. Run a non-destructive preview first (for sync operations, use dry-run with delete preview).
+2. Identify files that exist only in destination and would be removed.
+3. Classify destination-only files as high-risk when they are untracked by Git or ignored (e.g., `.env`).
+
+**Protected File Classes (default: do not delete):**
+
+| Pattern                 | Reason                           |
+| ----------------------- | -------------------------------- |
+| `.env`, `.env.*`        | Local secrets, not in Git        |
+| `*.pem`, `*.key`        | Certificates and private keys    |
+| `*credentials*.json`    | Credential files                 |
+| `*secret*.*`            | Secret configuration files       |
+| Local-only config files | May contain tokens or credentials |
+
+**Rules for Protected Files:**
+
+- Deletion is blocked by default.
+- Deletion requires explicit user confirmation with file-level acknowledgment.
+
+**Mandatory Confirmation for Destructive Operations:**
+
+Before executing destructive operations, include all of the following in the confirmation request:
+
+```text
+다음 파괴적 작업을 진행하려고 합니다.
+
+**작업 명령**: [명령어]
+**대상 경로**: [source → destination]
+**백업 위치**: [백업 경로 및 검증 결과]
+**삭제 예정 파일 수**: [개수]
+**삭제 예정 파일 목록**: [목록 또는 "목록이 길어 생략, dry-run 결과 참조"]
+**Git 미추적 파일 포함**: [예/아니오, 해당 시 목록]
+
+진행해도 될까요?
+```
+
+**Execution Gate:**
+
+- No confirmation + no verified backup ⇒ **do not proceed.**
+
 ---
 
 ## 9. Code Quality Essentials

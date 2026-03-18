@@ -96,7 +96,7 @@ Conflict handling policy:
 
 ### Communication Violation Examples (NEVER do these)
 
-- Japanese mixed: "한국어로 작성하겠습니다 メ인" (X) → "한국어로 작성하겠습니다" (O)
+- Japanese mixed: "한국어로 작성하겠습니다 メイン" (X) → "한국어로 작성하겠습니다" (O)
 - English mixed: "좋sounds good" (X) → "좋습니다" (O)
 - Chinese characters mixed: "external 的" (X) → "external" (O), "just 那样" (X) → "그냥 그렇게" (O)
 - Chinese word mixed: "紧密한 관계" (X) → "밀접한 관계" (O)

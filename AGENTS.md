@@ -96,13 +96,14 @@ Conflict handling policy:
 
 ### Communication Violation Examples (NEVER do these)
 
-- Japanese mixed: "한국어로 작성하겠습니다 メイン" (X) → "한국어로 작성하겠습니다" (O)
+- Japanese mixed: "한국어로 작성하겠습니다 メ인" (X) → "한국어로 작성하겠습니다" (O)
 - English mixed: "좋sounds good" (X) → "좋습니다" (O)
 - Chinese characters mixed: "external 的" (X) → "external" (O), "just 那样" (X) → "그냥 그렇게" (O)
 - Chinese word mixed: "紧密한 관계" (X) → "밀접한 관계" (O)
 - Mixed-language sentence: "테마를 고를까요? 私が設定してもいい?" (X) → "테마를 고를까요? 제가 설정해도 될까요?" (O)
 - Mixed non-Korean terms in Korean: "가능한 대안方案" (X) → "가능한 대안 방안" (O)
 - Chinese characters in Korean text: "共青단 계열" (X) → "공산주의 청년단 계열" (O)
+- Translation-ese (awkward Korean from direct translation): "OWASP 표는 Prevention 컬럼이 너무 깽니다. 내용을 줄여서 정렬하겠습니다" (X) → "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다. 줄여서 정렬하겠습니다" (O)
 
 > When the user points out a violation, add that example to the list above.
 
@@ -386,13 +387,13 @@ This protocol is mandatory before any destructive file operation, including `rsy
 
 **Protected File Classes (default: do not delete):**
 
-| Pattern                 | Reason                           |
-| ----------------------- | -------------------------------- |
-| `.env`, `.env.*`        | Local secrets, not in Git        |
-| `*.pem`, `*.key`        | Certificates and private keys    |
-| `*credentials*.json`    | Credential files                 |
-| `*secret*.*`            | Secret configuration files       |
-| Local-only config files | May contain tokens or credentials |
+| Pattern                   | Reason                             |
+| ------------------------- | ---------------------------------- |
+| `.env`, `.env.*`          | Local secrets, not in Git          |
+| `*.pem`, `*.key`          | Certificates and private keys      |
+| `*credentials*.json`      | Credential files                   |
+| `*secret*.*`              | Secret configuration files         |
+| Local-only config files   | May contain tokens or credentials  |
 
 **Rules for Protected Files:**
 
@@ -527,18 +528,18 @@ Exception policy:
 
 When writing code, be vigilant against all 10 categories:
 
-| #  | Vulnerability                            | Prevention                                                          |
-| -- | ---------------------------------------- | ------------------------------------------------------------------- |
-| A01 | Broken Access Control                   | Check authorization at service layer, not just URL; deny by default; enforce record-level ownership |
-| A02 | Cryptographic Failures                  | Encrypt sensitive data at rest and in transit; use strong algorithms (AES-256, bcrypt); never implement custom crypto |
-| A03 | Injection (SQL, Cmd, LDAP, XSS)        | Use parameterized queries; never concatenate user input into queries or commands; sanitize output |
-| A04 | Insecure Design                         | Apply threat modeling; use secure design patterns; validate business logic assumptions |
-| A05 | Security Misconfiguration               | No default credentials; disable debug in production; remove unnecessary features/endpoints |
-| A06 | Vulnerable and Outdated Components      | Keep dependencies updated; monitor CVE databases; remove unused dependencies |
-| A07 | Identification and Authentication Failures | Use established auth libraries; enforce MFA where possible; protect against credential stuffing |
-| A08 | Software and Data Integrity Failures    | Verify integrity of updates, CI/CD pipelines, and serialized data; use digital signatures |
-| A09 | Security Logging and Monitoring Failures | Log security events (login failures, access denials); ensure logs are tamper-resistant; set up alerts |
-| A10 | Server-Side Request Forgery (SSRF)      | Validate and whitelist outbound URLs; block requests to internal networks from user-supplied URLs |
+| #   | Vulnerability                                  | Prevention                                              |
+| --- | ---------------------------------------------- | ------------------------------------------------------- |
+| A01 | Broken Access Control                          | Check authorization at service layer; deny by default   |
+| A02 | Cryptographic Failures                         | Encrypt at rest and in transit; use strong algorithms   |
+| A03 | Injection (SQL, Cmd, LDAP, XSS)                | Use parameterized queries; never concatenate user input |
+| A04 | Insecure Design                                | Apply threat modeling; use secure design patterns       |
+| A05 | Security Misconfiguration                      | No default credentials; disable debug in production     |
+| A06 | Vulnerable and Outdated Components             | Keep dependencies updated; monitor CVE databases        |
+| A07 | Identification and Authentication Failures     | Use established auth libraries; enforce MFA             |
+| A08 | Software and Data Integrity Failures           | Verify integrity of updates; use digital signatures     |
+| A09 | Security Logging and Monitoring Failures       | Log security events; ensure logs are tamper-resistant   |
+| A10 | Server-Side Request Forgery (SSRF)             | Validate and whitelist outbound URLs                    |
 
 ### Code-Level Rules
 

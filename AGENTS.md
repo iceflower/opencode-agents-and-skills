@@ -288,6 +288,11 @@ Conflict handling policy:
 - When fixing a bug, do not "improve" surrounding code unless the improvement is required for the fix.
 - When answering a question, provide the answer without unsolicited additional suggestions unless they address a clear risk or correctness issue.
 
+#### Response Scope Examples
+
+- User: "Fix the null pointer exception in UserService" → Fix only the NPE. Do not refactor the entire class.
+- User: "Add logging to this function" → Add logging. Do not change the function signature or add caching.
+
 ---
 
 ## 8. Task Completion Declaration
@@ -514,7 +519,8 @@ Exception policy:
 ### Removal
 
 - Before removing a dependency, verify it is not imported or referenced anywhere in the codebase.
-- If removal affects transitive dependencies, note the impact.
+- Check if other dependencies depend on it (transitive dependencies). Use tools such as `npm ls <package>`, `pip show <package>`, or `gradle dependencies` to verify.
+- If removal affects transitive dependencies, note the impact and confirm with user before proceeding.
 
 ---
 
@@ -554,7 +560,7 @@ Exception policy:
 
 ### Security Principles
 
-- Be vigilant against OWASP Top 10 vulnerabilities when writing code. For the full OWASP Top 10 reference table and detailed prevention guidelines, see the `security` skill.
+- Be vigilant against [OWASP Top 10](https://owasp.org/www-project-top-ten/) vulnerabilities when writing code. For the full reference table and detailed prevention guidelines, see the `security` skill.
 - Apply defense in depth — do not rely on a single layer of protection.
 - Default to the most restrictive configuration; relax only when explicitly required.
 

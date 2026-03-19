@@ -58,6 +58,7 @@ Conflict handling policy:
 - Mixed non-Korean terms in Korean: "가능한 대안方案" (X) → "가능한 대안 방안" (O)
 - Chinese characters in Korean text: "共青단 계열" (X) → "공산주의 청년단 계열" (O)
 - Translation-ese (awkward Korean from direct translation): "OWASP 표는 Prevention 컬럼이 너무 깽니다. 내용을 줄여서 정렬하겠습니다" (X) → "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다. 줄여서 정렬하겠습니다" (O)
+- Chinese word in Korean text: "KMA API로迁移하고" (X) → "KMA API로 이관하고" 또는 "KMA API로 마이그레이션하고" (O)
 
 > When the user points out a violation, add that example to the list above.
 

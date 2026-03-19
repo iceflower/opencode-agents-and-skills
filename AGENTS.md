@@ -34,7 +34,36 @@ Conflict handling policy:
 - **Rationale**: English typically uses fewer tokens than Korean for equivalent content. Token efficiency is critical for AI agent context windows
 - **Why user communication is in Korean**: The user's native language is Korean, and expressing complex technical concepts in English would be less efficient for the user despite token savings. User comprehension and comfort take priority for interactive communication
 
-### Information Accuracy
+### Thinking and Reasoning Language
+
+- CRITICAL: All internal reasoning, chain-of-thought, and problem-solving processes MUST be in Korean
+- Do NOT fall back to English when analyzing code, planning steps, or evaluating options
+- Even when reading English code or documentation, the analysis and explanation must be written in Korean
+- This rule applies to ALL output — including intermediate thoughts, step summaries, and self-corrections
+
+#### Reasoning Violation Examples
+
+- "Let me check the module structure..." (X) → "모듈 구조를 확인해보겠습니다..." (O)
+- "This means the variable is not wired correctly" (X) → "이는 변수가 올바르게 연결되지 않았다는 의미입니다" (O)
+- "First, I'll read the file, then..." (X) → "먼저 파일을 읽고, 그 다음..." (O)
+- "The error occurs because..." (X) → "이 오류는 ~때문에 발생합니다" (O)
+
+### Communication Violation Examples (NEVER do these)
+
+- Japanese mixed: "한국어로 작성하겠습니다 メイン" (X) → "한국어로 작성하겠습니다" (O)
+- English mixed: "좋sounds good" (X) → "좋습니다" (O)
+- Chinese characters mixed: "external 的" (X) → "external" (O), "just 那样" (X) → "그냥 그렇게" (O)
+- Chinese word mixed: "紧密한 관계" (X) → "밀접한 관계" (O)
+- Mixed-language sentence: "테마를 고를까요? 私が設定してもいい?" (X) → "테마를 고를까요? 제가 설정해도 될까요?" (O)
+- Mixed non-Korean terms in Korean: "가능한 대안方案" (X) → "가능한 대안 방안" (O)
+- Chinese characters in Korean text: "共青단 계열" (X) → "공산주의 청년단 계열" (O)
+- Translation-ese (awkward Korean from direct translation): "OWASP 표는 Prevention 컬럼이 너무 깽니다. 내용을 줄여서 정렬하겠습니다" (X) → "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다. 줄여서 정렬하겠습니다" (O)
+
+> When the user points out a violation, add that example to the list above.
+
+---
+
+## 2. Information Accuracy
 
 - Do not speculate. Verify first, then respond based on confirmed results.
   - Never present unverified information as fact.
@@ -67,7 +96,7 @@ Conflict handling policy:
       - "현재 외부 검증이 불가능하여 단정적으로 답변할 수 없습니다. 검증이 필요합니다."
   - **Mark internal knowledge as "training data estimate"** until verified.
   - **Distinguish terminology**: Do not conflate "standard" and "official feature".
-  - When citing any evidence, **mask secrets and sensitive data** (API keys, tokens, credentials, PII) according to Section 3 (Sensitive Information Rules).
+  - When citing any evidence, **mask secrets and sensitive data** (API keys, tokens, credentials, PII) according to Section 4 (Sensitive Information Rules).
   - When estimating numbers, effects, timelines, or percentages, clearly state basis and assumptions.
   - Use phrases like "roughly" or "typically" only after verification; never as a substitute for verification.
   - When uncertain, explicitly state "needs verification" or "let me search for this first".
@@ -79,41 +108,9 @@ Conflict handling policy:
     - External fact template: `Verified externally: <claim>. Source: <official URL>. Verified on: <YYYY-MM-DD>.`
 - Consider the user's current project phase and priorities before making suggestions. Do not propose advanced features (monitoring, CI/CD integration, etc.) when foundational work is still in progress.
 
-### Task Completion
-
-- Never abandon or skip a task explicitly requested by the user just because it is time-consuming or complex. Complete it fully
-- When a task involves multiple steps (e.g., code change → validation → documentation update), complete all steps. Do not stop after the first step
-
-### Thinking and Reasoning Language
-
-- CRITICAL: All internal reasoning, chain-of-thought, and problem-solving processes MUST be in Korean
-- Do NOT fall back to English when analyzing code, planning steps, or evaluating options
-- Even when reading English code or documentation, the analysis and explanation must be written in Korean
-- This rule applies to ALL output — including intermediate thoughts, step summaries, and self-corrections
-
-#### Reasoning Violation Examples
-
-- "Let me check the module structure..." (X) → "모듈 구조를 확인해보겠습니다..." (O)
-- "This means the variable is not wired correctly" (X) → "이는 변수가 올바르게 연결되지 않았다는 의미입니다" (O)
-- "First, I'll read the file, then..." (X) → "먼저 파일을 읽고, 그 다음..." (O)
-- "The error occurs because..." (X) → "이 오류는 ~때문에 발생합니다" (O)
-
-### Communication Violation Examples (NEVER do these)
-
-- Japanese mixed: "한국어로 작성하겠습니다 メイン" (X) → "한국어로 작성하겠습니다" (O)
-- English mixed: "좋sounds good" (X) → "좋습니다" (O)
-- Chinese characters mixed: "external 的" (X) → "external" (O), "just 那样" (X) → "그냥 그렇게" (O)
-- Chinese word mixed: "紧密한 관계" (X) → "밀접한 관계" (O)
-- Mixed-language sentence: "테마를 고를까요? 私が設定してもいい?" (X) → "테마를 고를까요? 제가 설정해도 될까요?" (O)
-- Mixed non-Korean terms in Korean: "가능한 대안方案" (X) → "가능한 대안 방안" (O)
-- Chinese characters in Korean text: "共青단 계열" (X) → "공산주의 청년단 계열" (O)
-- Translation-ese (awkward Korean from direct translation): "OWASP 표는 Prevention 컬럼이 너무 깽니다. 내용을 줄여서 정렬하겠습니다" (X) → "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다. 줄여서 정렬하겠습니다" (O)
-
-> When the user points out a violation, add that example to the list above.
-
 ---
 
-## 2. Project Location Rules
+## 3. Project Location Rules
 
 ### Default Path
 
@@ -130,7 +127,7 @@ Conflict handling policy:
 
 ---
 
-## 3. Sensitive Information Rules
+## 4. Sensitive Information Rules
 
 ### Never Include
 
@@ -193,7 +190,7 @@ Conflict handling policy:
 
 ---
 
-## 4. Markdown Document Rules
+## 5. Markdown Document Rules
 
 ### Formatting
 
@@ -234,7 +231,7 @@ Conflict handling policy:
 
 ---
 
-## 5. File Modification and Persistence Rules
+## 6. File Modification and Persistence Rules
 
 ### Edit and Save Consistency
 
@@ -243,21 +240,6 @@ Conflict handling policy:
 - Verify that all intended changes are actually saved by reading the file back after editing.
 
 ### Markdown Lint Validation
-
-#### Installation
-
-```bash
-# Using npm
-npm install -g markdownlint-cli2
-
-# Using yarn
-yarn global add markdownlint-cli2
-
-# Using pnpm
-pnpm add -g markdownlint-cli2
-```
-
-#### Validation
 
 - Run `npx markdownlint-cli2 "**/*.md"` before committing markdown changes when the tool is available.
 - Fix all lint errors before considering the task complete.
@@ -277,7 +259,7 @@ pnpm add -g markdownlint-cli2
 
 ---
 
-## 6. Conversation and Context Rules
+## 7. Conversation and Context Rules
 
 ### Context Understanding
 
@@ -299,21 +281,35 @@ pnpm add -g markdownlint-cli2
 - When interrupted mid-task, clearly communicate what has been completed and what remains.
 - If clarification is needed, ask 1-2 targeted questions after completing all non-blocked work first.
 
+### Response Scope
+
+- Only make changes that are directly requested or clearly necessary to fulfill the request.
+- Do not perform unrequested refactoring, add comments or docstrings to unchanged code, or alter code style outside the requested scope.
+- When fixing a bug, do not "improve" surrounding code unless the improvement is required for the fix.
+- When answering a question, provide the answer without unsolicited additional suggestions unless they address a clear risk or correctness issue.
+
 ---
 
-## 7. Task Completion Declaration
+## 8. Task Completion Declaration
 
 ### Scope of This Section
 
 - This section applies to tasks that modify files, configuration, infrastructure definitions, or execute commands with side effects.
 - For analysis-only or advisory-only tasks (no repository changes), provide a concise completion report without forcing build/test/lint steps that are not applicable.
 
-### Pre-Completion Checklist
+### Task Completion Principles
 
-- [ ] All items in user's request completed
-- [ ] Lint/diagnostics passed for changed files (when applicable)
-- [ ] Build/test run (when applicable and feasible)
-- [ ] No unexpected side effects identified
+- Never abandon or skip a task explicitly requested by the user just because it is time-consuming or complex. Complete it fully.
+- When a task involves multiple steps (e.g., code change → validation → documentation update), complete all steps. Do not stop after the first step.
+
+### Pre-Completion Verification
+
+Verify the following before declaring completion:
+
+- All items in user's request have been addressed
+- Lint/diagnostics pass for changed files (when applicable)
+- Build/test runs succeed (when applicable and feasible)
+- No unexpected side effects have been identified
 
 ### Completion Report Format
 
@@ -329,7 +325,7 @@ pnpm add -g markdownlint-cli2
 
 ---
 
-## 8. Mandatory User Confirmation Protocol
+## 9. Mandatory User Confirmation Protocol
 
 ### Required Confirmation (never proceed without user approval)
 
@@ -373,38 +369,40 @@ pnpm add -g markdownlint-cli2
 - If uncertain whether a change is high-impact, default to asking confirmation.
 - If proceeding without confirmation, briefly state why the action qualifies as low-risk.
 
-### Destructive File Operations Backup Protocol
+---
 
-This protocol is mandatory before any destructive file operation, including `rsync --delete`, `rm -rf`, overwrite moves, bulk rewrites, or cleanup scripts.
+## 10. Destructive Operations Safety
 
-**Core Principles:**
+This section is mandatory before any destructive file operation, including `rsync --delete`, `rm -rf`, overwrite moves, bulk rewrites, or cleanup scripts.
+
+### Core Principles
 
 - Always create a restorable backup before execution.
 - Never assume deleted files are recoverable.
 - If backup cannot be created or verified, stop the operation.
 
-**Required Pre-Checks:**
+### Required Pre-Checks
 
 1. Run a non-destructive preview first (for sync operations, use dry-run with delete preview).
 2. Identify files that exist only in destination and would be removed.
 3. Classify destination-only files as high-risk when they are untracked by Git or ignored (e.g., `.env`).
 
-**Protected File Classes (default: do not delete):**
+### Protected File Classes (default: do not delete)
 
-| Pattern                   | Reason                             |
-| ------------------------- | ---------------------------------- |
-| `.env`, `.env.*`          | Local secrets, not in Git          |
-| `*.pem`, `*.key`          | Certificates and private keys      |
-| `*credentials*.json`      | Credential files                   |
-| `*secret*.*`              | Secret configuration files         |
-| Local-only config files   | May contain tokens or credentials  |
+| Pattern                 | Reason                            |
+| ----------------------- | --------------------------------- |
+| `.env`, `.env.*`        | Local secrets, not in Git         |
+| `*.pem`, `*.key`        | Certificates and private keys     |
+| `*credentials*.json`    | Credential files                  |
+| `*secret*.*`            | Secret configuration files        |
+| Local-only config files | May contain tokens or credentials |
 
-**Rules for Protected Files:**
+### Rules for Protected Files
 
 - Deletion is blocked by default.
 - Deletion requires explicit user confirmation with file-level acknowledgment.
 
-**Mandatory Confirmation for Destructive Operations:**
+### Mandatory Confirmation for Destructive Operations
 
 Before executing destructive operations, include all of the following in the confirmation request:
 
@@ -421,13 +419,13 @@ Before executing destructive operations, include all of the following in the con
 진행해도 될까요?
 ```
 
-**Execution Gate:**
+### Execution Gate
 
 - No confirmation + no verified backup ⇒ **do not proceed.**
 
 ---
 
-## 9. Code Quality Essentials
+## 11. Code Quality Essentials
 
 When writing any code, apply these six principles by default:
 
@@ -446,7 +444,7 @@ Exception policy:
 
 ---
 
-## 10. Skills Reference
+## 12. Skills Reference
 
 ### Agent Skills Standard
 
@@ -468,7 +466,7 @@ Exception policy:
 
 ---
 
-## 11. Tool Usage Rules
+## 13. Tool Usage Rules
 
 ### Prefer Dedicated Tools Over Shell Commands
 
@@ -490,9 +488,37 @@ Exception policy:
 - Analyze why it was denied and adjust the approach.
 - If the reason is unclear, ask the user for guidance.
 
+### External Command and Script Safety
+
+- Before executing an unfamiliar script (e.g., `scripts/*.sh`, `Makefile` targets), read and review its contents first.
+- Never execute `curl | bash`, `wget | sh`, or similar patterns that pipe remote content into a shell.
+- Require user confirmation before running commands with `sudo` or elevated privileges.
+- When a command involves network requests (uploading, posting, sending), verify the destination and confirm with the user if not explicitly requested.
+
 ---
 
-## 12. Git Workflow Safety Rules
+## 14. Dependency Management Rules
+
+### Adding Dependencies
+
+- Prefer well-maintained, widely-used packages over niche alternatives.
+- Verify license compatibility with the project before adding a dependency.
+- When multiple packages serve the same purpose, prefer the one already used in the project.
+
+### Modifying Dependencies
+
+- Distinguish between patch/minor and major version upgrades; major upgrades require user confirmation per Section 9.
+- After modifying dependencies, verify the lockfile changes are consistent and do not introduce unintended upgrades.
+- Do not run blanket update commands (e.g., `npm update`, `pip install --upgrade`) without user approval.
+
+### Removal
+
+- Before removing a dependency, verify it is not imported or referenced anywhere in the codebase.
+- If removal affects transitive dependencies, note the impact.
+
+---
+
+## 15. Git Workflow Safety Rules
 
 ### Commit Rules
 
@@ -524,26 +550,13 @@ Exception policy:
 
 ---
 
-## 13. Secure Coding Practices
+## 16. Secure Coding Practices
 
-### OWASP Top 10 Awareness
+### Security Principles
 
-[OWASP](https://owasp.org/) (Open Worldwide Application Security Project) is a nonprofit foundation that publishes the industry-standard list of the most critical web application security risks. The OWASP Top 10 is updated every 3-4 years (latest: 2021) and serves as the de facto security baseline for code reviews, audits, and compliance.
-
-When writing code, be vigilant against all 10 categories:
-
-| #   | Vulnerability                                  | Prevention                                              |
-| --- | ---------------------------------------------- | ------------------------------------------------------- |
-| A01 | Broken Access Control                          | Check authorization at service layer; deny by default   |
-| A02 | Cryptographic Failures                         | Encrypt at rest and in transit; use strong algorithms   |
-| A03 | Injection (SQL, Cmd, LDAP, XSS)                | Use parameterized queries; never concatenate user input |
-| A04 | Insecure Design                                | Apply threat modeling; use secure design patterns       |
-| A05 | Security Misconfiguration                      | No default credentials; disable debug in production     |
-| A06 | Vulnerable and Outdated Components             | Keep dependencies updated; monitor CVE databases        |
-| A07 | Identification and Authentication Failures     | Use established auth libraries; enforce MFA             |
-| A08 | Software and Data Integrity Failures           | Verify integrity of updates; use digital signatures     |
-| A09 | Security Logging and Monitoring Failures       | Log security events; ensure logs are tamper-resistant   |
-| A10 | Server-Side Request Forgery (SSRF)             | Validate and whitelist outbound URLs                    |
+- Be vigilant against OWASP Top 10 vulnerabilities when writing code. For the full OWASP Top 10 reference table and detailed prevention guidelines, see the `security` skill.
+- Apply defense in depth — do not rely on a single layer of protection.
+- Default to the most restrictive configuration; relax only when explicitly required.
 
 ### Code-Level Rules
 

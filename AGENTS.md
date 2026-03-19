@@ -50,6 +50,10 @@ Conflict handling policy:
   - **Use evidence format based on claim type**:
     - **Internal codebase facts**: cite concrete local evidence (file path, config key, log excerpt/timestamp, command output summary).
     - **External public facts**: cite at least one official primary source URL and include verification date (YYYY-MM-DD).
+  - **Do not infer external project intent from code internals alone**:
+    - Variable names, constants, and internal identifiers may not reflect the project's official naming, direction, or intent (e.g., `PLUGIN_NAME` vs `LEGACY_PLUGIN_NAME` may be misleading).
+    - Always cross-check conclusions drawn from code analysis against official sources (GitHub repo About/README, release notes, official docs) before presenting them as fact.
+    - When code internals and official sources conflict, trust the official source and note the discrepancy.
   - **For external public facts, perform external verification**:
     - Priority hierarchy:
       1. Official primary sources (official docs, official blog/release notes, official announcements)

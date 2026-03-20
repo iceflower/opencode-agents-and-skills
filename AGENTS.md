@@ -15,6 +15,19 @@ Conflict handling policy:
 - State the applied precedence briefly in the response when conflict resolution affects execution.
 - If conflict changes scope, risk, or irreversible outcomes, request user confirmation before proceeding.
 
+### Global vs Project-Level Rule Precedence
+
+This file is a **global** instruction file intended to be applied across all projects (for example, via `~/.config/opencode/AGENTS.md`). When a project also defines its own `AGENTS.md`, the following precedence applies:
+
+- **Project-level rules override global rules** by default, because project-specific conventions are more targeted and relevant.
+- **Exception — safety floor rules always apply**: Global rules in the following sections establish a minimum safety baseline that project-level rules cannot weaken:
+  - §4 (Sensitive Information Rules)
+  - §9 (Mandatory User Confirmation Protocol)
+  - §10 (Destructive Operations Safety)
+  - §15 (Git Workflow Safety Rules)
+  - §16 (Secure Coding Practices)
+- A project-level `AGENTS.md` may **extend** safety rules (stricter requirements), but must not **relax** them.
+
 ---
 
 ## 1. Language Rules

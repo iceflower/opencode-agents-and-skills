@@ -457,6 +457,14 @@ Exception policy:
 - Tests must be deterministic and independent — no reliance on execution order or shared mutable state.
 - For detailed test writing patterns (BDD, integration, contract, performance), refer to the `testing` skill.
 
+### Error Handling Essentials
+
+- Never use empty catch blocks (`catch(e) {}`). At minimum, log the error.
+- Preserve error context by chaining the original cause when re-throwing or wrapping exceptions.
+- Do not silently swallow errors — propagate, log, or handle them explicitly.
+- Distinguish recoverable errors (retry, fallback) from non-recoverable errors (fail fast, alert).
+- For detailed error handling patterns (hierarchy, classification, response format), refer to the `error-handling` skill.
+
 ---
 
 ## 12. Skills Reference

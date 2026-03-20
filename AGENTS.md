@@ -448,6 +448,15 @@ Exception policy:
 - When language/framework/runtime constraints require deviation, allow the smallest necessary exception.
 - If deviating, briefly document the reason and expected impact in the change explanation.
 
+### Testing Behavior Rules
+
+- New code that adds or changes behavior should include corresponding tests.
+- Bug fixes must include a regression test that fails without the fix.
+- Do not delete or skip existing tests to make a build pass. Fix the code instead.
+- If a test fails, determine the root cause before deciding whether the test or the code is wrong.
+- Tests must be deterministic and independent — no reliance on execution order or shared mutable state.
+- For detailed test writing patterns (BDD, integration, contract, performance), refer to the `testing` skill.
+
 ---
 
 ## 12. Skills Reference

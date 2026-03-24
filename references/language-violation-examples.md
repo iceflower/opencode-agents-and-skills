@@ -91,3 +91,9 @@
 | "테마를 고를까요? 私が設定してもいい?" | "테마를 고를까요? 제가 설정해도 될까요?" |
 | "OWASP 표는 Prevention 컬럼이 너무 깽니다" | "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다" |
 | "just 那样" | "그냥 그렇게" |
+
+### Chinese/Japanese Kanji Mixed
+
+| Violation | Correction |
+| --------- | ---------- |
+| "最佳的 컨벤션" | "최선의 컨벤션" 또는 "가장 적합한 컨벤션" |

@@ -1,68 +1,93 @@
 # Language Violation Examples
 
-> This file contains the full list of language violation examples referenced from §1 of AGENTS.md.
-> When the user points out a new violation, add that example to the appropriate section below.
+> Language violation examples referenced from §1 of AGENTS.md. Add new violations to the appropriate section when discovered.
 
-## Reasoning Violation Examples
+## Reasoning Violations
 
-- "Let me check the module structure..." (X) → "모듈 구조를 확인해보겠습니다..." (O)
-- "This means the variable is not wired correctly" (X) → "이는 변수가 올바르게 연결되지 않았다는 의미입니다" (O)
-- "First, I'll read the file, then..." (X) → "먼저 파일을 읽고, 그 다음..." (O)
-- "The error occurs because..." (X) → "이 오류는 ~때문에 발생합니다" (O)
+| Violation | Correction |
+| --------- | ---------- |
+| "Let me check the module structure..." | "모듈 구조를 확인해보겠습니다..." |
+| "This means the variable is not wired correctly" | "이는 변수가 올바르게 연결되지 않았다는 의미입니다" |
+| "First, I'll read the file, then..." | "먼저 파일을 읽고, 그 다음..." |
+| "The error occurs because..." | "이 오류는 ~때문에 발생합니다" |
 
-## Communication Violation Examples (NEVER do these)
+## Communication Violations
 
-- Japanese mixed: "한국어로 작성하겠습니다 メイン" (X) → "한국어로 작성하겠습니다" (O)
-- English mixed: "좋sounds good" (X) → "좋습니다" (O)
-- Chinese characters mixed: "external 的" (X) → "external" (O), "just 那样" (X) → "그냥 그렇게" (O)
-- Chinese word mixed: "紧密한 관계" (X) → "밀접한 관계" (O)
-- Mixed-language sentence: "테마를 고를까요? 私が設定してもいい?" (X) → "테마를 고를까요? 제가 설정해도 될까요?" (O)
-- Mixed non-Korean terms in Korean: "가능한 대안方案" (X) → "가능한 대안 방안" (O)
-- Chinese characters in Korean text: "共青단 계열" (X) → "공산주의 청년단 계열" (O)
-- Translation-ese (awkward Korean from direct translation): "OWASP 표는 Prevention 컬럼이 너무 깽니다. 내용을 줄여서 정렬하겠습니다" (X) → "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다. 줄여서 정렬하겠습니다" (O)
-- Chinese word in Korean text: "KMA API로迁移하고" (X) → "KMA API로 이관하고" 또는 "KMA API로 마이그레이션하고" (O)
-- Japanese kanji in Korean text (優先): "(중優先순위)" (X) → "(중우선순위)" (O)
-- Japanese kanji in Korean text (可能性): "가능성検討" (X) → "가능성 검토" (O)
-- Japanese kanji in Korean text (内的): "스킬당 1개以内的 책임 범위" (X) → "스킬당 1개 이내의 책임 범위" (O)
-- Chinese simplified in Korean text: "没确认" (X) → "확인 안 됨" (O)
-- Chinese simplified in Korean text: "一些问题" (X) → "一些问题" → "몇 가지 문제" (O)
-- Parentheses containing Japanese kanji: "(높은 우선순위)" (X) → "우선순위가 높음" (O)
-- Chinese simplified in Korean text: "在说" (X) → "에서 말했습니다" (O)
-- Chinese simplified in Korean text: "事儿" (X) → "일들" (O)
-- Chinese simplified in Korean text: "表述" (X) → "표현" 또는 "서술" (O)
-- Chinese simplified in Korean text: "使用" (X) → "사용" (O)
-- Chinese simplified in Korean text: "他自己" (X) → "그 himself" → "그 사람 자신" (O)
-- Chinese simplified in Korean text: "本地" (X) → "로컬" (O)
-- Chinese simplified in Korean text: "源文件" (X) → "원본 파일" (O)
-- Chinese simplified in Korean text: "已经" (X) → "이미" (O)
-- Chinese simplified in Korean text: "修改过" (X) → "수정했는지" (O)
-- Chinese simplified in Korean text: "同步" (X) → "동기화" (O)
-- Chinese simplified in Korean text: "更新" (X) → "업데이트" 또는 "새로 고침" (O)
-- Chinese simplified in Korean text: "权限" (X) → "권한" (O)
-- Chinese simplified in Korean text: "时间" (X) → "시간" (O)
-- Chinese simplified in Korean text: "维持" (X) → "유지" (O)
-- Japanese in Korean text: "受け入れ" (X) → "받아들입니다" (O)
-- Chinese simplified in Korean text: "检查" (X) → "확인" (O)
-- Chinese simplified in Korean text: "自查" (X) → "자가 검사" (O)
-- Japanese in Korean text: "oracoes 안의 문자까지 확인" (X) → "괄호 안의 문자까지 확인" (O)
-- Japanese in Korean text: "すべての出力前にChinese/Japanese混入を自查" (X) → "모든 출력 전에 중국어/일본어 혼합을自查" → "모든 출력 전에 중국어/일본어 혼합을 자가 검사" (O)
-- Japanese in Korean text: "特に技術用語の説明時に注意" (X) → "특히 기술 용어 설명 시 주의" (O)
-- Japanese in Korean text: "深く受け止め" (X) → "깊이 받아들입니다" (O)
-- Japanese in Korean text: "次から繰り返さないよう徹底" (X) → "다음부터 반복하지 않도록 철저히" (O)
-- Japanese in Korean text: "治理します" (X) → "治理" → "관리합니다" (O)
-- Japanese in Korean text: "这次真的是深刻的教训になりました" (X) → "이번엔 정말 깊은 교훈이 되었습니다" (O)
-- English mixed in Korean text: "fully 검증 안 됨" (X) → "완전히 검증 안 됨" (O)
-- English mixed in Korean text: "enforcement 위한" (X) → "적용을 위한" (O)
-- English mixed in Korean text: "fully" (X) → "완전히" (O)
-- English in parentheses: "Thinking:" (X) → "생각:" (O)
-- English in Korean text: "synchronization" (X) → "동기화" (O)
-- English in Korean text: "remaining" (X) → "남은" (O)
-- English in Korean text: "analysis" (X) → "분석" (O)
-- English in Korean text: "Now let me continue" (X) → "지금 계속하겠습니다" (O)
-- English in Korean text: "Thinking" (X) → "생각" (O)
-- English in Korean text: "let" (X) → "하도록" (O)
-- Chinese simplified in Korean text: "一些问题:" (X) → "몇 가지 문제:" (O)
-- Chinese simplified in Korean text: "过时的" (X) → "오래된" (O)
-- Chinese simplified in Korean text: "模糊的" (X) → "모호한" (O)
-- English mixed in Korean text: "Practice违背" (X) → "Practice 위반" (O)
-- Chinese simplified in Korean text: "关系模糊" (X) → "관계가 모호한" (O)
+### Japanese Mixed
+
+| Violation | Correction |
+| --------- | ---------- |
+| "한국어로 작성하겠습니다 メイン" | "한국어로 작성하겠습니다" |
+| "oracoes 안의 문자까지 확인" | "괄호 안의 문자까지 확인" |
+| "すべての出力前にChinese/Japanese混入を自查" | "모든 출력 전에 중국어/일본어 혼합을 자가 검사" |
+| "特に技術用語の説明時に注意" | "특히 기술 용어 설명 시 주의" |
+| "深く受け止め" | "깊이 받아들입니다" |
+| "次から繰り返さないよう徹底" | "다음부터 반복하지 않도록 철저히" |
+| "治理します" | "관리합니다" |
+| "这次真的是深刻的教训になりました" | "이번엔 정말 깊은 교훈이 되었습니다" |
+
+### Japanese Kanji Mixed
+
+| Violation | Correction |
+| --------- | ---------- |
+| "(優先순위)" | "(우선순위)" |
+| "가능성検討" | "가능성 검토" |
+| "内的責任範囲" | "이내의 책임 범위" |
+| "(높은 우선순위)" | "우선순위가 높음" |
+
+### Chinese (Simplified) Mixed
+
+| Violation | Correction |
+| --------- | ---------- |
+| "external 的" | "external" (as-is) |
+| "紧密한 관계" | "밀접한 관계" |
+| "方案" | "방안" |
+| "共青단 계열" | "공산주의 청년단 계열" |
+| "KMA API로迁移하고" | "KMA API로 이관하고" |
+| "没确认" | "확인 안 됨" |
+| "一些问题" | "몇 가지 문제" |
+| "在说" | "에서 말했습니다" |
+| "事儿" | "일들" |
+| "表述" | "표현" 또는 "서술" |
+| "使用" | "사용" |
+| "他自己" | "그 사람 자신" |
+| "本地" | "로컬" |
+| "源文件" | "원본 파일" |
+| "已经" | "이미" |
+| "修改过" | "수정했는지" |
+| "同步" | "동기화" |
+| "更新" | "업데이트" 또는 "새로 고침" |
+| "权限" | "권한" |
+| "时间" | "시간" |
+| "维持" | "유지" |
+| "检查" | "확인" |
+| "自查" | "자가 검사" |
+| "一些问题:" | "몇 가지 문제:" |
+| "过时的" | "오래된" |
+| "模糊的" | "모호한" |
+| "关系模糊" | "관계가 모호한" |
+
+### English Mixed
+
+| Violation | Correction |
+| --------- | ---------- |
+| "좋sounds good" | "좋습니다" |
+| "fully 검증 안 됨" | "완전히 검증 안 됨" |
+| "enforcement 위한" | "적용을 위한" |
+| "fully" | "완전히" |
+| "Thinking:" | "생각:" |
+| "synchronization" | "동기화" |
+| "remaining" | "남은" |
+| "analysis" | "분석" |
+| "Now let me continue" | "지금 계속하겠습니다" |
+| "Thinking" | "생각" |
+| "let" | "하도록" |
+| "Practice违背" | "Practice 위반" |
+
+### Mixed Sentences / Literal Translation
+
+| Violation | Correction |
+| --------- | ---------- |
+| "테마를 고를까요? 私が設定してもいい?" | "테마를 고를까요? 제가 설정해도 될까요?" |
+| "OWASP 표는 Prevention 컬럼이 너무 깽니다" | "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다" |
+| "just 那样" | "그냥 그렇게" |

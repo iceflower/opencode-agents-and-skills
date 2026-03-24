@@ -65,6 +65,23 @@ This file is a **global** instruction file intended to be applied across all pro
 - Chinese word mixed: "紧密한 관계" (X) → "밀접한 관계" (O)
 - Translation-ese: "OWASP 표는 Prevention 컬럼이 너무 깽니다" (X) → "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다" (O)
 
+### CJK Mixed Language Prohibition
+
+**Principle**: Korean sentences must be written entirely in Korean.
+Chinese and Japanese characters/scripts are **always prohibited** in Korean sentences.
+
+**Allowed Exceptions**:
+
+1. **Scientific/Technical terms**: Only internationally recognized terms that have already been explicitly permitted
+2. **User-initiated**: When the user explicitly uses foreign text in their message
+3. **Direct request**: When the user explicitly asks to use foreign text
+
+**Critical Rule**:
+
+- If a term is NOT on the explicit allowlist → **do not use it**
+- Do NOT ask whether you can use a term
+- Do NOT decide on your own that a term is "standard enough" to use
+
 > For the full list of violation examples, see `references/language-violation-examples.md`.
 > When the user points out a new violation, add the example to that reference file.
 

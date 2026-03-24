@@ -61,3 +61,8 @@
 - English in Korean text: "Now let me continue" (X) → "지금 계속하겠습니다" (O)
 - English in Korean text: "Thinking" (X) → "생각" (O)
 - English in Korean text: "let" (X) → "하도록" (O)
+- Chinese simplified in Korean text: "一些问题:" (X) → "몇 가지 문제:" (O)
+- Chinese simplified in Korean text: "过时的" (X) → "오래된" (O)
+- Chinese simplified in Korean text: "模糊的" (X) → "모호한" (O)
+- English mixed in Korean text: "Practice违背" (X) → "Practice 위반" (O)
+- Chinese simplified in Korean text: "关系模糊" (X) → "관계가 모호한" (O)

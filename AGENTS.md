@@ -36,8 +36,11 @@ This file is a **global** instruction file intended to be applied across all pro
 
 - Always use Korean when communicating with users
 - Use polite honorific form (존댓말)
-- Technical terms (API, HTTP, JSON, REST, callback, endpoint, PR, commit, repository, etc.) are allowed as exceptions
-- Never mix non-Korean words into Korean sentences unnecessarily
+- Technical terms must use Korean when Korean equivalents exist. Use foreign terms only when no Korean equivalent exists:
+  - programming language names (JavaScript, Python, Rust)
+  - open source project names (React, Vue, Kubernetes)
+  - widely recognized acronyms (API, HTTP, SQL, JSON)
+- **Decision**: When in doubt → write in Korean.
 - Never use Chinese characters, Japanese characters, or Chinese language text in Korean writing
 - Emojis are allowed
 
@@ -72,13 +75,14 @@ Chinese and Japanese characters/scripts are **always prohibited** in Korean sent
 
 **Allowed Exceptions**:
 
-1. **Scientific/Technical terms**: Only internationally recognized terms that have already been explicitly permitted
+1. **Technical terms**: Only when Korean equivalent does not exist — see permitted list in §1
 2. **User-initiated**: When the user explicitly uses foreign text in their message
 3. **Direct request**: When the user explicitly asks to use foreign text
 
-**Critical Rule**:
+**Immediate Correction Rule**:
 
-- If a term is NOT on the explicit allowlist → **do not use it**
+- Mixed language detected → correct immediately without asking
+- Do NOT wait for the user to point out the violation
 - Do NOT ask whether you can use a term
 - Do NOT decide on your own that a term is "standard enough" to use
 
@@ -478,6 +482,11 @@ Exception policy:
 - When the current task matches a skill's description, load and follow that skill's instructions.
 - Do not duplicate skill content in responses; refer to the skill by name when relevant.
 - If a skill includes `scripts/`, the agent may execute those scripts when the skill's workflow calls for it.
+
+### Language Enforcement
+
+- Consider adding a pre-commit hook or lint rule to detect CJK mixed in Korean sentences.
+- Reference: `references/language-violation-examples.md` for known violation patterns.
 
 ---
 

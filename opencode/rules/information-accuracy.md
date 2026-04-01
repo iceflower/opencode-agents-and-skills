@@ -1,7 +1,6 @@
-# Information Accuracy — Detailed Rules
+# Information Accuracy Rules
 
-> This file contains the full verification rules referenced from §2 of AGENTS.md.
-> Read this when you need detailed guidance on fact verification, source conflict resolution, or evidence formatting.
+> This file is auto-loaded by OpenCode. Contains full verification rules for factual claims.
 
 ## Claim Classification
 

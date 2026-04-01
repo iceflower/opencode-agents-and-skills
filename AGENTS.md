@@ -21,11 +21,11 @@ This file is a **global** instruction file intended to be applied across all pro
 
 - **Project-level rules override global rules** by default, because project-specific conventions are more targeted and relevant.
 - **Exception — safety floor rules always apply**: Global rules in the following sections establish a minimum safety baseline that project-level rules cannot weaken:
-  - §4 (Sensitive Information Rules)
-  - §9 (Mandatory User Confirmation Protocol)
-  - §10 (Destructive Operations Safety)
-  - §15 (Git Workflow Safety Rules)
-  - §16 (Secure Coding Practices)
+  - §3 (Sensitive Information Rules)
+  - §8 (Mandatory User Confirmation Protocol)
+  - §9 (Destructive Operations Safety)
+  - §14 (Git Workflow Safety Rules)
+  - §15 (Secure Coding Practices)
 - A project-level `AGENTS.md` may **extend** safety rules (stricter requirements), but must not **relax** them.
 
 ---
@@ -40,6 +40,7 @@ This file is a **global** instruction file intended to be applied across all pro
   - programming language names (JavaScript, Python, Rust)
   - open source project names (React, Vue, Kubernetes)
   - widely recognized acronyms (API, HTTP, SQL, JSON)
+- Never mix non-Korean words into Korean sentences unnecessarily
 - **Decision**: When in doubt → write in Korean.
 - Never use Chinese characters, Japanese characters, or Chinese language text in Korean writing
 - Emojis are allowed
@@ -68,46 +69,11 @@ This file is a **global** instruction file intended to be applied across all pro
 - Chinese word mixed: "紧密한 관계" (X) → "밀접한 관계" (O)
 - Translation-ese: "OWASP 표는 Prevention 컬럼이 너무 깽니다" (X) → "OWASP 표의 Prevention 컬럼 내용이 너무 깁니다" (O)
 
-### CJK Mixed Language Prohibition
-
-**Principle**: Korean sentences must be written entirely in Korean.
-Chinese and Japanese characters/scripts are **always prohibited** in Korean sentences.
-
-**Allowed Exceptions**:
-
-1. **Technical terms**: Only when Korean equivalent does not exist — see permitted list in §1
-2. **User-initiated**: When the user explicitly uses foreign text in their message
-3. **Direct request**: When the user explicitly asks to use foreign text
-
-**Immediate Correction Rule**:
-
-- Mixed language detected → correct immediately without asking
-- Do NOT wait for the user to point out the violation
-- Do NOT ask whether you can use a term
-- Do NOT decide on your own that a term is "standard enough" to use
-
-> For the full list of violation examples, see `references/language-violation-examples.md`.
-> When the user points out a new violation, add the example to that reference file.
+---
 
 ---
 
-## 2. Information Accuracy
-
-- Do not speculate. Verify first, then respond based on confirmed results.
-- Never present unverified information as fact.
-- Classify claims as **internal** (codebase) or **external** (vendor/standard), and apply appropriate verification.
-- External verification is **mandatory** for definitive claims, version/policy statements, and numeric claims.
-- When uncertain, explicitly state "needs verification" before proceeding.
-- Do not infer external project intent from code internals alone — cross-check against official sources.
-- When sources conflict, prioritize the most recent official primary source and note the conflict.
-- When citing evidence, mask secrets and sensitive data per §4.
-- Consider the user's current project phase and priorities before making suggestions.
-
-> For detailed verification rules, evidence formats, source conflict resolution, and reporting templates, see `references/information-accuracy.md`.
-
----
-
-## 3. Project Location Rules
+## 2. Project Location Rules
 
 ### Default Path
 
@@ -124,7 +90,7 @@ Chinese and Japanese characters/scripts are **always prohibited** in Korean sent
 
 ---
 
-## 4. Sensitive Information Rules
+## 3. Sensitive Information Rules
 
 ### Never Include
 
@@ -187,7 +153,7 @@ Chinese and Japanese characters/scripts are **always prohibited** in Korean sent
 
 ---
 
-## 5. Markdown Document Rules
+## 4. Markdown Document Rules
 
 ### Formatting
 
@@ -228,7 +194,7 @@ Chinese and Japanese characters/scripts are **always prohibited** in Korean sent
 
 ---
 
-## 6. File Modification and Persistence Rules
+## 5. File Modification and Persistence Rules
 
 ### Edit and Save Consistency
 
@@ -256,7 +222,7 @@ Chinese and Japanese characters/scripts are **always prohibited** in Korean sent
 
 ---
 
-## 7. Conversation and Context Rules
+## 6. Conversation and Context Rules
 
 ### Context Understanding
 
@@ -292,7 +258,7 @@ Chinese and Japanese characters/scripts are **always prohibited** in Korean sent
 
 ---
 
-## 8. Task Completion Declaration
+## 7. Task Completion Declaration
 
 ### Scope of This Section
 
@@ -327,7 +293,7 @@ Verify the following before declaring completion:
 
 ---
 
-## 9. Mandatory User Confirmation Protocol
+## 8. Mandatory User Confirmation Protocol
 
 ### Required Confirmation (never proceed without user approval)
 
@@ -373,7 +339,7 @@ Verify the following before declaring completion:
 
 ---
 
-## 10. Destructive Operations Safety
+## 9. Destructive Operations Safety
 
 This section is mandatory before any destructive file operation, including `rsync --delete`, `rm -rf`, overwrite moves, bulk rewrites, or cleanup scripts.
 
@@ -427,7 +393,7 @@ Before executing destructive operations, include all of the following in the con
 
 ---
 
-## 11. Code Quality Essentials
+## 10. Code Quality Essentials
 
 When writing any code, apply these six principles by default:
 
@@ -463,7 +429,7 @@ Exception policy:
 
 ---
 
-## 12. Skills Reference
+## 11. Skills Reference
 
 ### Agent Skills Standard
 
@@ -483,14 +449,9 @@ Exception policy:
 - Do not duplicate skill content in responses; refer to the skill by name when relevant.
 - If a skill includes `scripts/`, the agent may execute those scripts when the skill's workflow calls for it.
 
-### Language Enforcement
-
-- Consider adding a pre-commit hook or lint rule to detect CJK mixed in Korean sentences.
-- Reference: `references/language-violation-examples.md` for known violation patterns.
-
 ---
 
-## 13. Tool Usage Rules
+## 12. Tool Usage Rules
 
 ### Prefer Dedicated Tools Over Shell Commands
 
@@ -521,7 +482,7 @@ Exception policy:
 
 ---
 
-## 14. Dependency Management Rules
+## 13. Dependency Management Rules
 
 ### Adding Dependencies
 
@@ -531,7 +492,7 @@ Exception policy:
 
 ### Modifying Dependencies
 
-- Distinguish between patch/minor and major version upgrades; major upgrades require user confirmation per Section 9.
+- Distinguish between patch/minor and major version upgrades; major upgrades require user confirmation per Section 8.
 - After modifying dependencies, verify the lockfile changes are consistent and do not introduce unintended upgrades.
 - Do not run blanket update commands (e.g., `npm update`, `pip install --upgrade`) without user approval.
 
@@ -543,7 +504,7 @@ Exception policy:
 
 ---
 
-## 15. Git Workflow Safety Rules
+## 14. Git Workflow Safety Rules
 
 ### Commit Rules
 
@@ -575,7 +536,7 @@ Exception policy:
 
 ---
 
-## 16. Secure Coding Practices
+## 15. Secure Coding Practices
 
 ### Security Principles
 

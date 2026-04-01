@@ -117,6 +117,8 @@
 | 预 | 예방, 미리 | "预防" → "예방" |
 | 策 | 정책, 대책 | "对策" → "대책" |
 | 干 | 마르다, 깨끗이 | "干干净净" → "깨끗하게" |
+| 概 | 개념, 대략 | "概念" → "개념" |
+| 念 | 생각, 개념 | "概念" → "개념" |
 | 发 | 발견, 발생 | "发现" → "발견" |
 | 现 | 현재 | "现在" → "이제" |
 | 理 | 이해, 이치 | "理解了" → "이해했습니다" |
@@ -384,3 +386,11 @@ This file is used by the `cjk-detector` plugin to:
 1. Detect CJK characters in Korean sentences
 2. Suggest corrections based on pattern rules
 3. Log violations for review
+
+### Real Violation Examples
+
+| Violation | Correction | Context |
+|-----------|------------|---------|
+| "Windows 파일 시스템은 실행 권한**概念**이 없어" | "Windows 파일 시스템은 실행 권한**개념**이 없어" | Technical explanation mixed with Chinese |
+| "밀접한 **关系**" | "밀접한 **관계**" | Korean sentence with Chinese word |
+| "한국어로 작성하겠습니다 **メイン**" | "한국어로 작성하겠습니다" | Korean sentence with Japanese word |
